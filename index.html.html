@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alba Estates — Excellence Immobilière</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- AOS Library for scroll animations -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Natural Palette */
+            --cream: #F5F1E8;
+            --stone-light: #E8E4DC;
+            --olive: #6B7456;
+            --olive-dark: #4A5139;
+            --terracotta: #C9A088;
+            --charcoal: #2A2520;
+            --charcoal-soft: #3F3830;
+            --text-dark: #1A1A1A;
+            --text-muted: #5C544A;
+            
+            /* Spacing */
+            --section-padding: clamp(100px, 15vh, 160px);
+            --container-width: 1400px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        ::selection {
+            background: var(--olive);
+            color: var(--cream);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--stone-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--olive);
+            border-radius: 3px;
+        }
+
+        /* Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--olive), var(--terracotta));
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+
+        /* Container */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 clamp(24px, 5vw, 80px);
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(42, 37, 32, 0.95) 0%, rgba(42, 37, 32, 0.85) 100%);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav.scrolled {
+            background: rgba(42, 37, 32, 0.98);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px clamp(24px, 5vw, 80px);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--cream);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+        }
+
+        .nav-logo:hover {
+            opacity: 0.8;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: clamp(20px, 3vw, 40px);
+        }
+
+        .nav-links a {
+            color: rgba(245, 241, 232, 0.85);
+            text-decoration: none;
+            font-size: 13px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 300;
+            transition: color 0.3s, letter-spacing 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--terracotta);
+            letter-spacing: 0.15em;
+        }
+
+        .lang-toggle {
+            display: flex;
+            gap: 2px;
+            background: rgba(245, 241, 232, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: rgba(245, 241, 232, 0.6);
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .lang-btn.active {
+            background: var(--olive);
+            color: var(--cream);
+        }
+
+        .cta-btn {
+            padding: 12px 28px;
+            background: var(--olive);
+            color: var(--cream);
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .cta-btn:hover {
+            background: var(--terracotta);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 160, 136, 0.3);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 0;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(42, 37, 32, 0.3) 0%, transparent 40%, rgba(42, 37, 32, 0.6) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            color: var(--cream);
+            max-width: 1200px;
+            padding: 0 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(60px, 15vw, 180px);
+            color: var(--cream);
+            opacity: 0.95;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .separator {
+            font-weight: 300;
+            font-style: italic;
+            opacity: 0.6;
+            padding: 0 20px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 2.5vw, 28px);
+            font-weight: 300;
+            color: rgba(245, 241, 232, 0.85);
+            margin-bottom: 60px;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-card {
+            padding: 48px 32px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(245, 241, 232, 0.15);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--cream);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(201, 160, 136, 0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .hero-card:hover::before {
+            opacity: 1;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--terracotta);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-card-eyebrow {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(245, 241, 232, 0.6);
+            margin-bottom: 12px;
+        }
+
+        .hero-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .hero-card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(245, 241, 232, 0.7);
+        }
+
+        .hero-quote {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 3;
+            padding: 0 24px;
+        }
+
+        .hero-quote p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(14px, 2vw, 18px);
+            font-style: italic;
+            color: rgba(245, 241, 232, 0.7);
+            font-weight: 300;
+        }
+
+        /* Sections */
+        section {
+            padding: var(--section-padding) 0;
+            position: relative;
+        }
+
+        .section-dark {
+            background: var(--charcoal);
+            color: var(--cream);
+        }
+
+        .section-light {
+            background: var(--cream);
+            color: var(--text-dark);
+        }
+
+        .section-olive {
+            background: var(--olive-dark);
+            color: var(--cream);
+        }
+
+        .section-eyebrow {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(36px, 6vw, 72px);
+            margin-bottom: 24px;
+        }
+
+        .section-description {
+            font-size: clamp(16px, 2vw, 20px);
+            font-weight: 300;
+            line-height: 1.8;
+            opacity: 0.85;
+            max-width: 800px;
+        }
+
+        /* Quote Blocks */
+        .quote-block {
+            text-align: center;
+            padding: var(--section-padding) 0;
+        }
+
+        .quote-block p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(28px, 5vw, 56px);
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.4;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            padding: 48px 40px;
+            background: white;
+            border: 1px solid rgba(26, 26, 26, 0.08);
+            border-radius: 12px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 48px rgba(26, 26, 26, 0.08);
+            border-color: var(--terracotta);
+        }
+
+        .service-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .service-card-tag {
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .service-card-label {
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--olive);
+            font-weight: 500;
+        }
+
+        .service-card h3 {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-bottom: 32px;
+        }
+
+        .service-card ul {
+            list-style: none;
+        }
+
+        .service-card li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: var(--charcoal-soft);
+            font-weight: 300;
+        }
+
+        .service-card li::before {
+            content: '—';
+            color: var(--terracotta);
+            font-weight: 400;
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2px;
+            margin-top: 60px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+            filter: brightness(0.95) saturate(1.05);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            padding: 40px 32px;
+            background: rgba(245, 241, 232, 0.05);
+            border: 1px solid rgba(245, 241, 232, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card:hover {
+            background: rgba(245, 241, 232, 0.08);
+            border-color: var(--terracotta);
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 300;
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        /* Founder */
+        .founder-grid {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: clamp(60px, 10vw, 120px);
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        .founder-image {
+            aspect-ratio: 4/5;
+            border-radius: 120px 8px 120px 8px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 24px 64px rgba(26, 26, 26, 0.12);
+        }
+
+        .founder-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .founder-badge {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            right: 24px;
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 20px 24px;
+            border-radius: 6px;
+            border: 1px solid rgba(245, 241, 232, 0.1);
+        }
+
+        .founder-badge-eyebrow {
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--terracotta);
+            margin-bottom: 4px;
+        }
+
+        .founder-badge-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        .founder-content h2 {
+            font-size: clamp(36px, 5vw, 56px);
+            margin-bottom: 32px;
+        }
+
+        .founder-content p {
+            font-weight: 300;
+            line-height: 1.9;
+            margin-bottom: 24px;
+            opacity: 0.85;
+        }
+
+        /* FAQ */
+        .faq-list {
+            max-width: 900px;
+            margin: 60px auto 0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+            padding: 32px 0;
+        }
+
+        .faq-question {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--text-dark);
+            text-align: left;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--olive);
+        }
+
+        .faq-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(26, 26, 26, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.4s;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-icon {
+            background: var(--olive);
+            color: var(--cream);
+            border-color: var(--olive);
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 800px;
+            padding-top: 24px;
+        }
+
+        .faq-answer p {
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--text-muted);
+        }
+
+        /* Contact Form */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 2fr;
+            gap: clamp(60px, 10vw, 120px);
+            margin-top: 60px;
+        }
+
+        .contact-info h2 {
+            font-size: clamp(36px, 5vw, 56px);
+            margin-bottom: 32px;
+        }
+
+        .contact-detail {
+            margin-bottom: 32px;
+        }
+
+        .contact-detail-label {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 8px;
+        }
+
+        .contact-detail-value {
+            font-size: 20px;
+            font-weight: 300;
+        }
+
+        .contact-detail-value a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-detail-value a:hover {
+            color: var(--terracotta);
+        }
+
+        .contact-form {
+            background: white;
+            padding: 48px;
+            border-radius: 12px;
+            border: 1px solid rgba(26, 26, 26, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid rgba(26, 26, 26, 0.1);
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            color: var(--text-dark);
+            background: var(--cream);
+            transition: all 0.3s;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--olive);
+            background: white;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--olive);
+            color: var(--cream);
+            border: none;
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-submit:hover {
+            background: var(--terracotta);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 160, 136, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 40px;
+            background: var(--charcoal);
+            color: var(--cream);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            font-weight: 300;
+            opacity: 0.7;
+            line-height: 1.8;
+        }
+
+        .footer-section h4 {
+            font-size: 13px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(245, 241, 232, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--terracotta);
+        }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid rgba(245, 241, 232, 0.1);
+            text-align: center;
+            font-size: 13px;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 15vw;
+            }
+
+            .hero-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .founder-grid,
+            .contact-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .founder-image {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div id="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-content">
+            <a href="#" class="nav-logo">
+                Alba Estates
+            </a>
+            
+            <div class="nav-links">
+                <a href="#neuf" data-i18n="nav.neuf">Neuf</a>
+                <a href="#renovation" data-i18n="nav.renovation">Rénovation</a>
+                <a href="#savoir-faire" data-i18n="nav.savoir">Savoir-faire</a>
+                <a href="#fondateur" data-i18n="nav.expertise">Expertise</a>
+                <a href="#faq" data-i18n="nav.faq">FAQ</a>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="lang-toggle">
+                    <button class="lang-btn active" data-lang="fr">FR</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+                <a href="#contact" class="cta-btn" data-i18n="nav.contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/2e38bf53-a5a3-4ac4-a0bc-861f6d0b52af_3840w.png" alt="Villa Alba Estates">
+        </div>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content">
+            <h1 data-aos="fade-up" data-aos-duration="1200">
+                ALBA<span class="separator">—</span>ESTATES
+            </h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200" data-i18n="hero.subtitle">
+                Construction neuve et rénovation d'exception
+            </p>
+            
+            <div class="hero-cards">
+                <a href="#neuf" class="hero-card" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+                    <div class="hero-card-eyebrow" data-i18n="hero.card1.eyebrow">Accès direct</div>
+                    <div class="hero-card-title" data-i18n="hero.card1.title">PROJETS NEUFS</div>
+                    <div class="hero-card-cta" data-i18n="hero.card1.cta">Découvrir →</div>
+                </a>
+                
+                <a href="#renovation" class="hero-card" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+                    <div class="hero-card-eyebrow" data-i18n="hero.card2.eyebrow">Accès direct</div>
+                    <div class="hero-card-title" data-i18n="hero.card2.title">RÉNOVATION LOURDE</div>
+                    <div class="hero-card-cta" data-i18n="hero.card2.cta">Découvrir →</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-quote">
+            <p data-aos="fade-up" data-aos-delay="800" data-i18n="quotes.hero">
+                "Wood creates silence. Marble creates presence."
+            </p>
+        </div>
+    </section>
+
+    <!-- Manifesto -->
+    <section class="section-dark">
+        <div class="container text-center">
+            <div class="quote-block" data-aos="fade-up" data-aos-duration="1200">
+                <p data-i18n="quotes.manifesto">"Ultra simple. Utterly luxurious."</p>
+            </div>
+            <p class="section-description" style="margin: 40px auto 0;" data-aos="fade-up" data-aos-delay="200" data-i18n="manifesto.text">
+                Matériaux nobles européens. Réseau artisans de premier rang. 10 ans d'excellence sur chantiers complexes.
+            </p>
+        </div>
+    </section>
+
+    <!-- Approche -->
+    <section class="section-olive">
+        <div class="container text-center">
+            <span class="section-eyebrow" data-aos="fade-up" data-i18n="approche.eyebrow">Notre Approche</span>
+            <div class="quote-block" data-aos="fade-up" data-aos-delay="100">
+                <p style="font-size: clamp(24px, 4vw, 40px);" data-i18n="quotes.clarity">
+                    "Minimalism teaches us that clarity is a form of wealth."
+                </p>
+            </div>
+            <h2 class="section-title" data-aos="fade-up" data-aos-delay="200" data-i18n="approche.title">
+                Projets Globaux, Pas Prestations Isolées
+            </h2>
+            <div style="max-width: 800px; margin: 40px auto 0; text-align: left;" data-aos="fade-up" data-aos-delay="300">
+                <p style="margin-bottom: 24px; font-weight: 300; line-height: 1.9; opacity: 0.9;" data-i18n="approche.p1">
+                    Alba Estates ne construit pas des maisons. Nous concevons des lieux de vie complets — de la topographie du terrain à la dernière applique murale.
+                </p>
+                <p style="font-weight: 300; line-height: 1.9; opacity: 0.9;" data-i18n="approche.p2">
+                    Architecture, matériaux, lumière, paysage : tout dialogue. Chaque projet fait l'objet d'un suivi exclusif avec un interlocuteur unique du terrain à la livraison. Nous travaillons avec une clientèle restreinte qui partage notre vision d'un immobilier de substance, où le luxe est structurel, pas ornemental.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projets Neufs -->
+    <section id="neuf" class="section-light">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-eyebrow" data-aos="fade-up" data-i18n="neuf.eyebrow">Construction Neuve</span>
+                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100" data-i18n="neuf.title">
+                    De la recherche du terrain à la remise des clés
+                </h2>
+                <p class="section-description" style="margin: 24px auto 0;" data-aos="fade-up" data-aos-delay="200" data-i18n="neuf.description">
+                    VEFA, co-investissement, maîtrise d'œuvre, conseil : 4 accompagnements selon votre profil.
+                </p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card-header">
+                        <span class="service-card-tag" data-i18n="services.1.tag">Acquéreur · Investisseur</span>
+                        <span class="service-card-label" data-i18n="services.1.label">PROMOTION VEFA</span>
+                    </div>
+                    <h3 data-i18n="services.1.title">Achat sur plan clé en main</h3>
+                    <p data-i18n="services.1.description">Terrain, permis, construction, livraison. Nous portons l'intégralité du projet.</p>
+                    <ul>
+                        <li data-i18n="services.1.feature1">Sélection terrain + PC</li>
+                        <li data-i18n="services.1.feature2">Construction clé en main</li>
+                        <li data-i18n="services.1.feature3">Garantie financière achèvement</li>
+                        <li data-i18n="services.1.feature4">Matériaux nobles européens</li>
+                    </ul>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card-header">
+                        <span class="service-card-tag" data-i18n="services.2.tag">Family Office · Investisseur</span>
+                        <span class="service-card-label" data-i18n="services.2.label">CO-INVESTISSEMENT</span>
+                    </div>
+                    <h3 data-i18n="services.2.title">Rendement fixe 18-24 mois</h3>
+                    <p data-i18n="services.2.description">Investissement sur projet identifié avec PC purgé.</p>
+                    <ul>
+                        <li data-i18n="services.2.feature1">Projet PC purgé en main</li>
+                        <li data-i18n="services.2.feature2">Reporting mensuel détaillé</li>
+                        <li data-i18n="services.2.feature3">Durée courte, rendement défini</li>
+                        <li data-i18n="services.2.feature4">Territoire France</li>
+                    </ul>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card-header">
+                        <span class="service-card-tag" data-i18n="services.3.tag">Propriétaire terrain</span>
+                        <span class="service-card-label" data-i18n="services.3.label">MAÎTRISE D'ŒUVRE</span>
+                    </div>
+                    <h3 data-i18n="services.3.title">Pilotage complet construction</h3>
+                    <p data-i18n="services.3.description">Coordination architecte, entreprises, planning, matériaux.</p>
+                    <ul>
+                        <li data-i18n="services.3.feature1">Coordination architecte + entreprises</li>
+                        <li data-i18n="services.3.feature2">Accès matériaux nobles Europe</li>
+                        <li data-i18n="services.3.feature3">Suivi budget + planning rigoureux</li>
+                        <li data-i18n="services.3.feature4">Honoraires fixes + %</li>
+                    </ul>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card-header">
+                        <span class="service-card-tag" data-i18n="services.4.tag">Porteur projet · Primo-accédant</span>
+                        <span class="service-card-label" data-i18n="services.4.label">CONSEIL & INGÉNIERIE</span>
+                    </div>
+                    <h3 data-i18n="services.4.title">Faisabilité, terrain, permis</h3>
+                    <p data-i18n="services.4.description">De l'analyse PLU au dépôt permis de construire.</p>
+                    <ul>
+                        <li data-i18n="services.4.feature1">Analyse faisabilité + PLU</li>
+                        <li data-i18n="services.4.feature2">Recherche terrain off-market</li>
+                        <li data-i18n="services.4.feature3">Dépôt permis de construire</li>
+                        <li data-i18n="services.4.feature4">Mission à la carte</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Gallery Neuf -->
+            <div class="gallery" style="margin-top: 80px;">
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/hanoi_1_1600w.webp" alt="Projet Neuf 1">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/euphoria_1_1600w.webp" alt="Projet Neuf 2">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/kayu_1_1600w.webp" alt="Projet Neuf 3">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/hanoi_3_1600w.webp" alt="Projet Neuf 4">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/euphoria_2_1600w.webp" alt="Projet Neuf 5">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/kayu_2_1600w.webp" alt="Projet Neuf 6">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rénovation -->
+    <section id="renovation" class="section-light" style="padding-top: 80px;">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-eyebrow" data-aos="fade-up" data-i18n="renovation.eyebrow">Rénovation Lourde</span>
+                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100" data-i18n="renovation.title">
+                    Transformer l'ancien en excellence contemporaine
+                </h2>
+                <p class="section-description" style="margin: 24px auto 0;" data-aos="fade-up" data-aos-delay="200" data-i18n="renovation.description">
+                    Même niveau d'exigence. Même réseau artisans. Transformation complète de votre patrimoine.
+                </p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card-header">
+                        <span class="service-card-tag" data-i18n="services.5.tag">Acquéreur · Investisseur</span>
+                        <span class="service-card-label" data-i18n="services.5.label">RÉNOVATION VEFA</span>
+                    </div>
+                    <h3 data-i18n="services.5.title">Transformation clé en main</h3>
+                    <p data-i18n="services.5.description">Conception architecturale, travaux tous corps d'état, livraison.</p>
+                    <ul>
+                        <li data-i18n="services.5.feature1">Conception architecturale sur mesure</li>
+                        <li data-i18n="services.5.feature2">Travaux tous corps d'état</li>
+                        <li data-i18n="services.5.feature3">Matériaux nobles européens</li>
+                        <li data-i18n="services.5.feature4">Livraison clé en main</li>
+                    </ul>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card-header">
+                        <span class="service-card-tag" data-i18n="services.6.tag">Family Office · Investisseur</span>
+                        <span class="service-card-label" data-i18n="services.6.label">CO-INVESTISSEMENT RÉNOVATION</span>
+                    </div>
+                    <h3 data-i18n="services.6.title">Financement projet rénovation</h3>
+                    <p data-i18n="services.6.description">Projet défini, devis validé, rendement fixe.</p>
+                    <ul>
+                        <li data-i18n="services.6.feature1">Projet avec devis détaillé</li>
+                        <li data-i18n="services.6.feature2">Reporting mensuel chantier</li>
+                        <li data-i18n="services.6.feature3">Durée maîtrisée</li>
+                        <li data-i18n="services.6.feature4">Plus-value revente</li>
+                    </ul>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card-header">
+                        <span class="service-card-tag" data-i18n="services.7.tag">Propriétaire</span>
+                        <span class="service-card-label" data-i18n="services.7.label">MAÎTRISE D'ŒUVRE RÉNOVATION</span>
+                    </div>
+                    <h3 data-i18n="services.7.title">Pilotage travaux rénovation</h3>
+                    <p data-i18n="services.7.description">Architecte, artisans, planning, matériaux.</p>
+                    <ul>
+                        <li data-i18n="services.7.feature1">Coordination architecte + artisans</li>
+                        <li data-i18n="services.7.feature2">Accès matériaux nobles Europe</li>
+                        <li data-i18n="services.7.feature3">Suivi budget + planning</li>
+                        <li data-i18n="services.7.feature4">Honoraires fixes + %</li>
+                    </ul>
+                </div>
+
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card-header">
+                        <span class="service-card-tag" data-i18n="services.8.tag">Propriétaire · Porteur projet</span>
+                        <span class="service-card-label" data-i18n="services.8.label">CONSEIL RÉNOVATION</span>
+                    </div>
+                    <h3 data-i18n="services.8.title">Étude faisabilité, valorisation</h3>
+                    <p data-i18n="services.8.description">Audit technique, estimation travaux, recherche bien.</p>
+                    <ul>
+                        <li data-i18n="services.8.feature1">Audit technique + architectural</li>
+                        <li data-i18n="services.8.feature2">Estimation travaux détaillée</li>
+                        <li data-i18n="services.8.feature3">Recherche bien off-market</li>
+                        <li data-i18n="services.8.feature4">Mission à la carte</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Gallery Renovation -->
+            <div class="gallery" style="margin-top: 80px;">
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/agape_1_1600w.webp" alt="Rénovation 1">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/mala_1_1600w.webp" alt="Rénovation 2">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/euphoria_3_1600w.webp" alt="Rénovation 3">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/agape_2_1600w.webp" alt="Rénovation 4">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/mala_2_1600w.webp" alt="Rénovation 5">
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/euphoria_5_1600w.webp" alt="Rénovation 6">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Material -->
+    <section class="section-dark">
+        <div class="container text-center">
+            <div class="quote-block" data-aos="fade-up">
+                <p data-i18n="quotes.material">"Material is not a trend. It is structure."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Savoir-Faire -->
+    <section id="savoir-faire" class="section-dark">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-eyebrow" data-aos="fade-up" data-i18n="savoir.eyebrow">Réseau Exclusif</span>
+                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100" data-i18n="savoir.title">
+                    Une Garde Rapprochée d'Artisans Européens
+                </h2>
+            </div>
+
+            <div style="max-width: 900px; margin: 60px auto 0; text-align: left;" data-aos="fade-up" data-aos-delay="200">
+                <p style="margin-bottom: 32px; font-weight: 300; line-height: 1.9; opacity: 0.9;" data-i18n="savoir.p1">
+                    Notre cercle d'artisans — manufactures de marbre portugaises, ébénistes suisses, ferronniers italiens — collabore avec nous depuis une décennie.
+                </p>
+                <p style="margin-bottom: 32px; font-weight: 300; line-height: 1.9; opacity: 0.9;" data-i18n="savoir.p2">
+                    Ce réseau fermé, tissé au fil de chantiers complexes pour de grands groupes suisses, garantit constance qualitative absolue et accès à des tarifs hors marché. Chaque matériau est sourcé en direct. Chaque artisan est choisi pour son excellence technique et sa compréhension du détail invisible.
+                </p>
+                <p style="font-weight: 300; line-height: 1.9; opacity: 0.9;" data-i18n="savoir.p3">
+                    Le luxe n'est pas dans l'ornement. Il est dans la justesse de la coupe, la densité du marbre, l'épaisseur du métal.
+                </p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label" data-i18n="stats.1">ans — Réseau artisans Europe</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-number">100M€+</div>
+                    <div class="stat-label" data-i18n="stats.2">Chantiers pilotés groupe suisse</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-number">36 500m²</div>
+                    <div class="stat-label" data-i18n="stats.3">Plus grand projet livré</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label" data-i18n="stats.4">Manufactures partenaires exclusives</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fondateur -->
+    <section id="fondateur" class="section-light">
+        <div class="container">
+            <div class="founder-grid">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <div class="founder-image">
+                        <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/26ca62cb-52cd-451c-8416-fc8a52d05bd0_1600w.png" alt="Aidan Murphy">
+                        <div class="founder-badge">
+                            <div class="founder-badge-eyebrow" data-i18n="founder.badge.eyebrow">Fondateur</div>
+                            <div class="founder-badge-name" data-i18n="founder.badge.name">Aidan Murphy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="founder-content" data-aos="fade-left" data-aos-duration="1000">
+                    <span class="section-eyebrow" data-i18n="founder.eyebrow">Expertise</span>
+                    <h2 data-i18n="founder.title">Des Chantiers Complexes aux Résidences d'Exception</h2>
+                    
+                    <p data-i18n="founder.p1">
+                        10 années au sein d'un grand groupe suisse de construction à piloter des chantiers de très grande envergure — projets dépassant régulièrement les 100 millions d'euros, équipes pluridisciplinaires de plusieurs dizaines de personnes, coordination architectes-bureaux d'études-entreprises sur des ouvrages structurellement complexes.
+                    </p>
+                    
+                    <p data-i18n="founder.p2">
+                        Cette expérience forgée sur des opérations d'envergure industrielle a développé une discipline rare : anticiper les interfaces, maîtriser les plannings serrés, sourcer les matériaux en direct, négocier avec les meilleurs artisans européens.
+                    </p>
+                    
+                    <p data-i18n="founder.p3">
+                        Aujourd'hui, Alba Estates met cette rigueur opérationnelle au service de résidences privées d'exception. Même exigence. Même réseau. Échelle plus humaine.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Quiet -->
+    <section class="section-olive">
+        <div class="container text-center">
+            <div class="quote-block" data-aos="fade-up">
+                <p data-i18n="quotes.quiet">"A quiet space creates a quiet mind."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section-light">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-eyebrow" data-aos="fade-up" data-i18n="faq.eyebrow">Questions Fréquentes</span>
+                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100" data-i18n="faq.title">
+                    Tout ce que vous devez savoir
+                </h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                    <button class="faq-question">
+                        <span data-i18n="faq.q1">Quels sont vos délais de construction ?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.a1">18 à 24 mois de la signature terrain à la livraison selon complexité du projet et contraintes permis de construire. Planning précis dès démarrage, suivi rigoureux pour respecter les délais.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                    <button class="faq-question">
+                        <span data-i18n="faq.q2">Travaillez-vous partout en France ?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.a2">Oui. VEFA et co-investissement sur l'ensemble du territoire français. Maîtrise d'œuvre : priorité régions avec artisans partenaires de confiance, principalement Sud France.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                    <button class="faq-question">
+                        <span data-i18n="faq.q3">Comment fonctionnent vos matériaux européens ?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.a3">Travail direct avec usines européennes spécialisées marbre, bois précieux, métaux haut de gamme. Suppression intermédiaires = matériaux d'exception à tarifs optimisés, contrôle qualité rigoureux, délais maîtrisés.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+                    <button class="faq-question">
+                        <span data-i18n="faq.q4">Quel budget prévoir ?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.a4">Construction neuve : à partir de 3 500 €/m² pour villa standing. Rénovation : selon état initial et finitions souhaitées. Devis détaillé systématique après étude projet.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="500">
+                    <button class="faq-question">
+                        <span data-i18n="faq.q5">Proposez-vous un accompagnement financement ?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.a5">VEFA avec garanties légales (garantie financière achèvement, assurance dommages-ouvrage). Mise en relation partenaires bancaires spécialisés financement immobilier haut de gamme.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="600">
+                    <button class="faq-question">
+                        <span data-i18n="faq.q6">Différence maîtrise d'œuvre vs promotion VEFA ?</span>
+                        <div class="faq-icon">+</div>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq.a6">VEFA : nous sommes propriétaires terrain et vendeurs du bien achevé, vous achetez sur plan, nous livrons clé en main. Maîtrise d'œuvre : vous êtes propriétaire terrain et maître d'ouvrage, nous coordonnons votre projet en tant que professionnel mandaté, sans porter l'opération financièrement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section-light" style="padding-top: 80px;">
+        <div class="container">
+            <div class="contact-grid">
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <h2 data-i18n="contact.title">Parlons de votre projet</h2>
+                    
+                    <div class="contact-detail">
+                        <div class="contact-detail-label" data-i18n="contact.email.label">Email</div>
+                        <div class="contact-detail-value">
+                            <a href="mailto:contact@alba-estates.fr">contact@alba-estates.fr</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-detail">
+                        <div class="contact-detail-label" data-i18n="contact.phone.label">Téléphone</div>
+                        <div class="contact-detail-value">
+                            <a href="tel:+33658000978">06 58 00 09 78</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-detail">
+                        <div class="contact-detail-label" data-i18n="contact.location.label">Localisation</div>
+                        <div class="contact-detail-value" data-i18n="contact.location.value">Paris · Côte d'Azur · France</div>
+                    </div>
+
+                    <p style="font-weight: 300; line-height: 1.9; color: var(--text-muted); margin-top: 40px;" data-i18n="contact.description">
+                        Construction neuve ou rénovation d'exception, notre équipe étudie votre projet et vous propose la solution la mieux adaptée.
+                    </p>
+                </div>
+
+                <div data-aos="fade-left" data-aos-duration="1000">
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form.name">Nom & Prénom</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form.email">Email</label>
+                            <input type="email" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form.phone">Téléphone</label>
+                            <input type="tel" class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form.project">Type de Projet</label>
+                            <select class="form-select" required>
+                                <option value="" data-i18n="form.select">Sélectionnez une option</option>
+                                <option value="vefa-neuf" data-i18n="form.option1">Promotion VEFA Neuf</option>
+                                <option value="coinvest-neuf" data-i18n="form.option2">Co-investissement Neuf</option>
+                                <option value="moe-neuf" data-i18n="form.option3">Maîtrise d'œuvre Neuf</option>
+                                <option value="conseil-neuf" data-i18n="form.option4">Conseil & Ingénierie Neuf</option>
+                                <option value="vefa-reno" data-i18n="form.option5">Rénovation VEFA</option>
+                                <option value="coinvest-reno" data-i18n="form.option6">Co-investissement Rénovation</option>
+                                <option value="moe-reno" data-i18n="form.option7">Maîtrise d'œuvre Rénovation</option>
+                                <option value="conseil-reno" data-i18n="form.option8">Conseil Rénovation</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form.message">Message</label>
+                            <textarea class="form-textarea" required></textarea>
+                        </div>
+
+                        <button type="submit" class="form-submit" data-i18n="form.submit">Envoyer la demande</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>Alba Estates</h3>
+                    <p data-i18n="footer.description">
+                        Promotion immobilière de prestige et rénovation d'exception. Excellence architecturale et savoir-faire artisanal européen.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-i18n="footer.services.title">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#neuf" data-i18n="footer.services.neuf">Projets Neufs</a></li>
+                        <li><a href="#renovation" data-i18n="footer.services.renovation">Rénovation</a></li>
+                        <li><a href="#contact" data-i18n="footer.services.contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 data-i18n="footer.info.title">Informations</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:contact@alba-estates.fr">contact@alba-estates.fr</a></li>
+                        <li><a href="tel:+33658000978">06 58 00 09 78</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                © 2026 Alba Estates. <span data-i18n="footer.rights">Tous droits réservés</span>.
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            once: true,
+            offset: 80
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Navbar on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const wasActive = faqItem.classList.contains('active');
+                
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                if (!wasActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Merci pour votre message ! Nous vous contacterons dans les plus brefs délais.');
+            e.target.reset();
+        });
+
+        // Translations
+        const translations = {
+            fr: {
+                'nav.neuf': 'Neuf',
+                'nav.renovation': 'Rénovation',
+                'nav.savoir': 'Savoir-faire',
+                'nav.expertise': 'Expertise',
+                'nav.faq': 'FAQ',
+                'nav.contact': 'Contact',
+                'hero.subtitle': 'Construction neuve et rénovation d\'exception',
+                'hero.card1.eyebrow': 'Accès direct',
+                'hero.card1.title': 'PROJETS NEUFS',
+                'hero.card1.cta': 'Découvrir →',
+                'hero.card2.eyebrow': 'Accès direct',
+                'hero.card2.title': 'RÉNOVATION LOURDE',
+                'hero.card2.cta': 'Découvrir →',
+                'quotes.hero': '"Wood creates silence. Marble creates presence."',
+                'quotes.manifesto': '"Ultra simple. Utterly luxurious."',
+                'manifesto.text': 'Matériaux nobles européens. Réseau artisans de premier rang. 10 ans d\'excellence sur chantiers complexes.',
+                'approche.eyebrow': 'Notre Approche',
+                'quotes.clarity': '"Minimalism teaches us that clarity is a form of wealth."',
+                'approche.title': 'Projets Globaux, Pas Prestations Isolées',
+                'approche.p1': 'Alba Estates ne construit pas des maisons. Nous concevons des lieux de vie complets — de la topographie du terrain à la dernière applique murale.',
+                'approche.p2': 'Architecture, matériaux, lumière, paysage : tout dialogue. Chaque projet fait l\'objet d\'un suivi exclusif avec un interlocuteur unique du terrain à la livraison. Nous travaillons avec une clientèle restreinte qui partage notre vision d\'un immobilier de substance, où le luxe est structurel, pas ornemental.',
+                'neuf.eyebrow': 'Construction Neuve',
+                'neuf.title': 'De la recherche du terrain à la remise des clés',
+                'neuf.description': 'VEFA, co-investissement, maîtrise d\'œuvre, conseil : 4 accompagnements selon votre profil.',
+                'services.1.tag': 'Acquéreur · Investisseur',
+                'services.1.label': 'PROMOTION VEFA',
+                'services.1.title': 'Achat sur plan clé en main',
+                'services.1.description': 'Terrain, permis, construction, livraison. Nous portons l\'intégralité du projet.',
+                'services.1.feature1': 'Sélection terrain + PC',
+                'services.1.feature2': 'Construction clé en main',
+                'services.1.feature3': 'Garantie financière achèvement',
+                'services.1.feature4': 'Matériaux nobles européens',
+                'services.2.tag': 'Family Office · Investisseur',
+                'services.2.label': 'CO-INVESTISSEMENT',
+                'services.2.title': 'Rendement fixe 18-24 mois',
+                'services.2.description': 'Investissement sur projet identifié avec PC purgé.',
+                'services.2.feature1': 'Projet PC purgé en main',
+                'services.2.feature2': 'Reporting mensuel détaillé',
+                'services.2.feature3': 'Durée courte, rendement défini',
+                'services.2.feature4': 'Territoire France',
+                'services.3.tag': 'Propriétaire terrain',
+                'services.3.label': 'MAÎTRISE D\'ŒUVRE',
+                'services.3.title': 'Pilotage complet construction',
+                'services.3.description': 'Coordination architecte, entreprises, planning, matériaux.',
+                'services.3.feature1': 'Coordination architecte + entreprises',
+                'services.3.feature2': 'Accès matériaux nobles Europe',
+                'services.3.feature3': 'Suivi budget + planning rigoureux',
+                'services.3.feature4': 'Honoraires fixes + %',
+                'services.4.tag': 'Porteur projet · Primo-accédant',
+                'services.4.label': 'CONSEIL & INGÉNIERIE',
+                'services.4.title': 'Faisabilité, terrain, permis',
+                'services.4.description': 'De l\'analyse PLU au dépôt permis de construire.',
+                'services.4.feature1': 'Analyse faisabilité + PLU',
+                'services.4.feature2': 'Recherche terrain off-market',
+                'services.4.feature3': 'Dépôt permis de construire',
+                'services.4.feature4': 'Mission à la carte',
+                'renovation.eyebrow': 'Rénovation Lourde',
+                'renovation.title': 'Transformer l\'ancien en excellence contemporaine',
+                'renovation.description': 'Même niveau d\'exigence. Même réseau artisans. Transformation complète de votre patrimoine.',
+                'services.5.tag': 'Acquéreur · Investisseur',
+                'services.5.label': 'RÉNOVATION VEFA',
+                'services.5.title': 'Transformation clé en main',
+                'services.5.description': 'Conception architecturale, travaux tous corps d\'état, livraison.',
+                'services.5.feature1': 'Conception architecturale sur mesure',
+                'services.5.feature2': 'Travaux tous corps d\'état',
+                'services.5.feature3': 'Matériaux nobles européens',
+                'services.5.feature4': 'Livraison clé en main',
+                'services.6.tag': 'Family Office · Investisseur',
+                'services.6.label': 'CO-INVESTISSEMENT RÉNOVATION',
+                'services.6.title': 'Financement projet rénovation',
+                'services.6.description': 'Projet défini, devis validé, rendement fixe.',
+                'services.6.feature1': 'Projet avec devis détaillé',
+                'services.6.feature2': 'Reporting mensuel chantier',
+                'services.6.feature3': 'Durée maîtrisée',
+                'services.6.feature4': 'Plus-value revente',
+                'services.7.tag': 'Propriétaire',
+                'services.7.label': 'MAÎTRISE D\'ŒUVRE RÉNOVATION',
+                'services.7.title': 'Pilotage travaux rénovation',
+                'services.7.description': 'Architecte, artisans, planning, matériaux.',
+                'services.7.feature1': 'Coordination architecte + artisans',
+                'services.7.feature2': 'Accès matériaux nobles Europe',
+                'services.7.feature3': 'Suivi budget + planning',
+                'services.7.feature4': 'Honoraires fixes + %',
+                'services.8.tag': 'Propriétaire · Porteur projet',
+                'services.8.label': 'CONSEIL RÉNOVATION',
+                'services.8.title': 'Étude faisabilité, valorisation',
+                'services.8.description': 'Audit technique, estimation travaux, recherche bien.',
+                'services.8.feature1': 'Audit technique + architectural',
+                'services.8.feature2': 'Estimation travaux détaillée',
+                'services.8.feature3': 'Recherche bien off-market',
+                'services.8.feature4': 'Mission à la carte',
+                'quotes.material': '"Material is not a trend. It is structure."',
+                'savoir.eyebrow': 'Réseau Exclusif',
+                'savoir.title': 'Une Garde Rapprochée d\'Artisans Européens',
+                'savoir.p1': 'Notre cercle d\'artisans — manufactures de marbre portugaises, ébénistes suisses, ferronniers italiens — collabore avec nous depuis une décennie.',
+                'savoir.p2': 'Ce réseau fermé, tissé au fil de chantiers complexes pour de grands groupes suisses, garantit constance qualitative absolue et accès à des tarifs hors marché. Chaque matériau est sourcé en direct. Chaque artisan est choisi pour son excellence technique et sa compréhension du détail invisible.',
+                'savoir.p3': 'Le luxe n\'est pas dans l\'ornement. Il est dans la justesse de la coupe, la densité du marbre, l\'épaisseur du métal.',
+                'stats.1': 'ans — Réseau artisans Europe',
+                'stats.2': 'Chantiers pilotés groupe suisse',
+                'stats.3': 'Plus grand projet livré',
+                'stats.4': 'Manufactures partenaires exclusives',
+                'founder.badge.eyebrow': 'Fondateur',
+                'founder.badge.name': 'Aidan Murphy',
+                'founder.eyebrow': 'Expertise',
+                'founder.title': 'Des Chantiers Complexes aux Résidences d\'Exception',
+                'founder.p1': '10 années au sein d\'un grand groupe suisse de construction à piloter des chantiers de très grande envergure — projets dépassant régulièrement les 100 millions d\'euros, équipes pluridisciplinaires de plusieurs dizaines de personnes, coordination architectes-bureaux d\'études-entreprises sur des ouvrages structurellement complexes.',
+                'founder.p2': 'Cette expérience forgée sur des opérations d\'envergure industrielle a développé une discipline rare : anticiper les interfaces, maîtriser les plannings serrés, sourcer les matériaux en direct, négocier avec les meilleurs artisans européens.',
+                'founder.p3': 'Aujourd\'hui, Alba Estates met cette rigueur opérationnelle au service de résidences privées d\'exception. Même exigence. Même réseau. Échelle plus humaine.',
+                'quotes.quiet': '"A quiet space creates a quiet mind."',
+                'faq.eyebrow': 'Questions Fréquentes',
+                'faq.title': 'Tout ce que vous devez savoir',
+                'faq.q1': 'Quels sont vos délais de construction ?',
+                'faq.a1': '18 à 24 mois de la signature terrain à la livraison selon complexité du projet et contraintes permis de construire. Planning précis dès démarrage, suivi rigoureux pour respecter les délais.',
+                'faq.q2': 'Travaillez-vous partout en France ?',
+                'faq.a2': 'Oui. VEFA et co-investissement sur l\'ensemble du territoire français. Maîtrise d\'œuvre : priorité régions avec artisans partenaires de confiance, principalement Sud France.',
+                'faq.q3': 'Comment fonctionnent vos matériaux européens ?',
+                'faq.a3': 'Travail direct avec usines européennes spécialisées marbre, bois précieux, métaux haut de gamme. Suppression intermédiaires = matériaux d\'exception à tarifs optimisés, contrôle qualité rigoureux, délais maîtrisés.',
+                'faq.q4': 'Quel budget prévoir ?',
+                'faq.a4': 'Construction neuve : à partir de 3 500 €/m² pour villa standing. Rénovation : selon état initial et finitions souhaitées. Devis détaillé systématique après étude projet.',
+                'faq.q5': 'Proposez-vous un accompagnement financement ?',
+                'faq.a5': 'VEFA avec garanties légales (garantie financière achèvement, assurance dommages-ouvrage). Mise en relation partenaires bancaires spécialisés financement immobilier haut de gamme.',
+                'faq.q6': 'Différence maîtrise d\'œuvre vs promotion VEFA ?',
+                'faq.a6': 'VEFA : nous sommes propriétaires terrain et vendeurs du bien achevé, vous achetez sur plan, nous livrons clé en main. Maîtrise d\'œuvre : vous êtes propriétaire terrain et maître d\'ouvrage, nous coordonnons votre projet en tant que professionnel mandaté, sans porter l\'opération financièrement.',
+                'contact.title': 'Parlons de votre projet',
+                'contact.email.label': 'Email',
+                'contact.phone.label': 'Téléphone',
+                'contact.location.label': 'Localisation',
+                'contact.location.value': 'Paris · Côte d\'Azur · France',
+                'contact.description': 'Construction neuve ou rénovation d\'exception, notre équipe étudie votre projet et vous propose la solution la mieux adaptée.',
+                'form.name': 'Nom & Prénom',
+                'form.email': 'Email',
+                'form.phone': 'Téléphone',
+                'form.project': 'Type de Projet',
+                'form.select': 'Sélectionnez une option',
+                'form.option1': 'Promotion VEFA Neuf',
+                'form.option2': 'Co-investissement Neuf',
+                'form.option3': 'Maîtrise d\'œuvre Neuf',
+                'form.option4': 'Conseil & Ingénierie Neuf',
+                'form.option5': 'Rénovation VEFA',
+                'form.option6': 'Co-investissement Rénovation',
+                'form.option7': 'Maîtrise d\'œuvre Rénovation',
+                'form.option8': 'Conseil Rénovation',
+                'form.message': 'Message',
+                'form.submit': 'Envoyer la demande',
+                'footer.description': 'Promotion immobilière de prestige et rénovation d\'exception. Excellence architecturale et savoir-faire artisanal européen.',
+                'footer.services.title': 'Services',
+                'footer.services.neuf': 'Projets Neufs',
+                'footer.services.renovation': 'Rénovation',
+                'footer.services.contact': 'Contact',
+                'footer.info.title': 'Informations',
+                'footer.rights': 'Tous droits réservés'
+            },
+            en: {
+                'nav.neuf': 'New Build',
+                'nav.renovation': 'Renovation',
+                'nav.savoir': 'Expertise',
+                'nav.expertise': 'About',
+                'nav.faq': 'FAQ',
+                'nav.contact': 'Contact',
+                'hero.subtitle': 'Luxury new construction and exceptional renovations',
+                'hero.card1.eyebrow': 'Direct access',
+                'hero.card1.title': 'NEW PROJECTS',
+                'hero.card1.cta': 'Discover →',
+                'hero.card2.eyebrow': 'Direct access',
+                'hero.card2.title': 'MAJOR RENOVATION',
+                'hero.card2.cta': 'Discover →',
+                'quotes.hero': '"Wood creates silence. Marble creates presence."',
+                'quotes.manifesto': '"Ultra simple. Utterly luxurious."',
+                'manifesto.text': 'Noble European materials. First-rate network of artisans. 10 years of excellence on complex projects.',
+                'approche.eyebrow': 'Our Approach',
+                'quotes.clarity': '"Minimalism teaches us that clarity is a form of wealth."',
+                'approche.title': 'Global Projects, Not Isolated Services',
+                'approche.p1': 'Alba Estates doesn\'t build houses. We design complete living spaces — from land topography to the last wall sconce.',
+                'approche.p2': 'Architecture, materials, light, landscape: everything dialogues. Each project receives exclusive monitoring with a single point of contact from land to delivery. We work with a limited clientele who share our vision of substantive real estate, where luxury is structural, not ornamental.',
+                'neuf.eyebrow': 'New Construction',
+                'neuf.title': 'From land search to keys handover',
+                'neuf.description': 'VEFA, co-investment, project management, consulting: 4 services tailored to your profile.',
+                'services.1.tag': 'Buyer · Investor',
+                'services.1.label': 'VEFA PROMOTION',
+                'services.1.title': 'Turnkey off-plan purchase',
+                'services.1.description': 'Land, permits, construction, delivery. We handle the entire project.',
+                'services.1.feature1': 'Land selection + permits',
+                'services.1.feature2': 'Turnkey construction',
+                'services.1.feature3': 'Completion financial guarantee',
+                'services.1.feature4': 'Noble European materials',
+                'services.2.tag': 'Family Office · Investor',
+                'services.2.label': 'CO-INVESTMENT',
+                'services.2.title': 'Fixed return 18-24 months',
+                'services.2.description': 'Investment on identified project with cleared permits.',
+                'services.2.feature1': 'Cleared permit project',
+                'services.2.feature2': 'Detailed monthly reporting',
+                'services.2.feature3': 'Short duration, defined return',
+                'services.2.feature4': 'France territory',
+                'services.3.tag': 'Land owner',
+                'services.3.label': 'PROJECT MANAGEMENT',
+                'services.3.title': 'Full construction oversight',
+                'services.3.description': 'Architect coordination, contractors, planning, materials.',
+                'services.3.feature1': 'Architect + contractor coordination',
+                'services.3.feature2': 'Access to noble European materials',
+                'services.3.feature3': 'Rigorous budget + planning monitoring',
+                'services.3.feature4': 'Fixed fees + %',
+                'services.4.tag': 'Project holder · First-time buyer',
+                'services.4.label': 'CONSULTING & ENGINEERING',
+                'services.4.title': 'Feasibility, land, permits',
+                'services.4.description': 'From PLU analysis to permit filing.',
+                'services.4.feature1': 'Feasibility + PLU analysis',
+                'services.4.feature2': 'Off-market land search',
+                'services.4.feature3': 'Building permit filing',
+                'services.4.feature4': 'À la carte mission',
+                'renovation.eyebrow': 'Major Renovation',
+                'renovation.title': 'Transforming heritage into contemporary excellence',
+                'renovation.description': 'Same level of requirements. Same network of artisans. Complete transformation of your property.',
+                'services.5.tag': 'Buyer · Investor',
+                'services.5.label': 'RENOVATION VEFA',
+                'services.5.title': 'Turnkey transformation',
+                'services.5.description': 'Architectural design, all trades work, delivery.',
+                'services.5.feature1': 'Bespoke architectural design',
+                'services.5.feature2': 'All trades work',
+                'services.5.feature3': 'Noble European materials',
+                'services.5.feature4': 'Turnkey delivery',
+                'services.6.tag': 'Family Office · Investor',
+                'services.6.label': 'RENOVATION CO-INVESTMENT',
+                'services.6.title': 'Renovation project financing',
+                'services.6.description': 'Defined project, validated quote, fixed return.',
+                'services.6.feature1': 'Project with detailed quote',
+                'services.6.feature2': 'Monthly site reporting',
+                'services.6.feature3': 'Controlled duration',
+                'services.6.feature4': 'Resale capital gain',
+                'services.7.tag': 'Owner',
+                'services.7.label': 'RENOVATION PROJECT MANAGEMENT',
+                'services.7.title': 'Renovation work oversight',
+                'services.7.description': 'Architect, artisans, planning, materials.',
+                'services.7.feature1': 'Architect + artisan coordination',
+                'services.7.feature2': 'Access to noble European materials',
+                'services.7.feature3': 'Budget + planning monitoring',
+                'services.7.feature4': 'Fixed fees + %',
+                'services.8.tag': 'Owner · Project holder',
+                'services.8.label': 'RENOVATION CONSULTING',
+                'services.8.title': 'Feasibility study, valuation',
+                'services.8.description': 'Technical audit, work estimation, property search.',
+                'services.8.feature1': 'Technical + architectural audit',
+                'services.8.feature2': 'Detailed work estimate',
+                'services.8.feature3': 'Off-market property search',
+                'services.8.feature4': 'À la carte mission',
+                'quotes.material': '"Material is not a trend. It is structure."',
+                'savoir.eyebrow': 'Exclusive Network',
+                'savoir.title': 'A Close Circle of European Artisans',
+                'savoir.p1': 'Our circle of artisans — Portuguese marble manufacturers, Swiss cabinetmakers, Italian metalworkers — has collaborated with us for a decade.',
+                'savoir.p2': 'This closed network, woven through complex projects for major Swiss groups, guarantees absolute qualitative consistency and access to off-market pricing. Each material is sourced directly. Each artisan is chosen for their technical excellence and understanding of invisible details.',
+                'savoir.p3': 'Luxury is not in ornamentation. It is in the precision of the cut, the density of the marble, the thickness of the metal.',
+                'stats.1': 'years — European artisan network',
+                'stats.2': 'Projects led for Swiss group',
+                'stats.3': 'Largest project delivered',
+                'stats.4': 'Exclusive partner manufacturers',
+                'founder.badge.eyebrow': 'Founder',
+                'founder.badge.name': 'Aidan Murphy',
+                'founder.eyebrow': 'Expertise',
+                'founder.title': 'From Complex Projects to Exceptional Residences',
+                'founder.p1': '10 years within a major Swiss construction group overseeing large-scale projects — regularly exceeding 100 million euros, multidisciplinary teams of dozens, coordinating architects-engineering firms-contractors on structurally complex works.',
+                'founder.p2': 'This experience forged on industrial-scale operations has developed a rare discipline: anticipating interfaces, mastering tight schedules, sourcing materials directly, negotiating with the best European artisans.',
+                'founder.p3': 'Today, Alba Estates brings this operational rigor to exceptional private residences. Same requirements. Same network. More human scale.',
+                'quotes.quiet': '"A quiet space creates a quiet mind."',
+                'faq.eyebrow': 'Frequently Asked Questions',
+                'faq.title': 'Everything you need to know',
+                'faq.q1': 'What are your construction timelines?',
+                'faq.a1': '18 to 24 months from land signing to delivery depending on project complexity and permit constraints. Precise planning from start, rigorous monitoring to meet deadlines.',
+                'faq.q2': 'Do you work throughout France?',
+                'faq.a2': 'Yes. VEFA and co-investment across France. Project management: priority regions with trusted partner artisans, mainly South of France.',
+                'faq.q3': 'How do your European materials work?',
+                'faq.a3': 'Direct work with European factories specialized in marble, precious woods, high-end metals. Eliminating intermediaries = exceptional materials at optimized prices, rigorous quality control, controlled timelines.',
+                'faq.q4': 'What budget should I plan?',
+                'faq.a4': 'New construction: from €3,500/m² for prestige villa. Renovation: depends on initial condition and desired finishes. Systematic detailed quote after project study.',
+                'faq.q5': 'Do you offer financing support?',
+                'faq.a5': 'VEFA with legal guarantees (completion financial guarantee, structural damage insurance). Connection with banking partners specialized in high-end real estate financing.',
+                'faq.q6': 'Difference between project management and VEFA promotion?',
+                'faq.a6': 'VEFA: we own the land and sell the completed property, you buy off-plan, we deliver turnkey. Project management: you own the land and are the client, we coordinate your project as commissioned professional, without financially carrying the operation.',
+                'contact.title': 'Let\'s discuss your project',
+                'contact.email.label': 'Email',
+                'contact.phone.label': 'Phone',
+                'contact.location.label': 'Location',
+                'contact.location.value': 'Paris · French Riviera · France',
+                'contact.description': 'New construction or exceptional renovation, our team studies your project and proposes the best-suited solution.',
+                'form.name': 'Full Name',
+                'form.email': 'Email',
+                'form.phone': 'Phone',
+                'form.project': 'Project Type',
+                'form.select': 'Select an option',
+                'form.option1': 'VEFA Promotion New Build',
+                'form.option2': 'New Build Co-investment',
+                'form.option3': 'New Build Project Management',
+                'form.option4': 'New Build Consulting & Engineering',
+                'form.option5': 'Renovation VEFA',
+                'form.option6': 'Renovation Co-investment',
+                'form.option7': 'Renovation Project Management',
+                'form.option8': 'Renovation Consulting',
+                'form.message': 'Message',
+                'form.submit': 'Send request',
+                'footer.description': 'Prestige real estate development and exceptional renovations. Architectural excellence and European artisanal know-how.',
+                'footer.services.title': 'Services',
+                'footer.services.neuf': 'New Projects',
+                'footer.services.renovation': 'Renovation',
+                'footer.services.contact': 'Contact',
+                'footer.info.title': 'Information',
+                'footer.rights': 'All rights reserved'
+            }
+        };
+
+        // Language switcher
+        let currentLang = 'fr';
+        document.querySelectorAll('[data-lang]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                if (lang === currentLang) return;
+                
+                currentLang = lang;
+                document.documentElement.lang = lang;
+                
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.dataset.i18n;
+                    if (translations[lang][key]) {
+                        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                            el.placeholder = translations[lang][key];
+                        } else {
+                            el.textContent = translations[lang][key];
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
