@@ -8,8 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- AOS Library for scroll animations -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     
     <style>
         * {
@@ -19,7 +20,6 @@
         }
 
         :root {
-            /* Natural Palette */
             --cream: #F5F1E8;
             --stone-light: #E8E4DC;
             --olive: #6B7456;
@@ -29,8 +29,6 @@
             --charcoal-soft: #3F3830;
             --text-dark: #1A1A1A;
             --text-muted: #5C544A;
-            
-            /* Spacing */
             --section-padding: clamp(100px, 15vh, 160px);
             --container-width: 1400px;
         }
@@ -59,7 +57,6 @@
             color: var(--cream);
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -73,7 +70,6 @@
             border-radius: 3px;
         }
 
-        /* Progress Bar */
         #scroll-progress {
             position: fixed;
             top: 0;
@@ -85,14 +81,13 @@
             transition: width 0.1s linear;
         }
 
-        /* Container */
         .container {
             max-width: var(--container-width);
             margin: 0 auto;
             padding: 0 clamp(24px, 5vw, 80px);
         }
 
-        /* Navbar */
+        /* Enhanced Navbar with blur */
         nav {
             position: fixed;
             top: 0;
@@ -203,7 +198,7 @@
             box-shadow: 0 8px 24px rgba(201, 160, 136, 0.3);
         }
 
-        /* Hero */
+        /* Enhanced Hero with parallax */
         .hero {
             position: relative;
             height: 100vh;
@@ -219,12 +214,14 @@
             position: absolute;
             inset: 0;
             z-index: 1;
+            will-change: transform;
         }
 
         .hero-bg img {
             width: 100%;
-            height: 100%;
+            height: 110%;
             object-fit: cover;
+            transform: scale(1.1);
         }
 
         .hero-overlay {
@@ -246,7 +243,7 @@
         .hero h1 {
             font-size: clamp(60px, 15vw, 180px);
             color: var(--cream);
-            opacity: 0.95;
+            opacity: 0;
             letter-spacing: -0.03em;
             margin-bottom: 24px;
         }
@@ -264,6 +261,7 @@
             color: rgba(245, 241, 232, 0.85);
             margin-bottom: 60px;
             letter-spacing: 0.02em;
+            opacity: 0;
         }
 
         .hero-cards {
@@ -285,6 +283,8 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            opacity: 0;
+            transform: translateY(40px);
         }
 
         .hero-card::before {
@@ -340,6 +340,7 @@
             text-align: center;
             z-index: 3;
             padding: 0 24px;
+            opacity: 0;
         }
 
         .hero-quote p {
@@ -350,10 +351,11 @@
             font-weight: 300;
         }
 
-        /* Sections */
+        /* Sections with reveal animations */
         section {
             padding: var(--section-padding) 0;
             position: relative;
+            overflow: hidden;
         }
 
         .section-dark {
@@ -393,7 +395,6 @@
             max-width: 800px;
         }
 
-        /* Quote Blocks */
         .quote-block {
             text-align: center;
             padding: var(--section-padding) 0;
@@ -409,7 +410,7 @@
             margin: 0 auto;
         }
 
-        /* Services Grid */
+        /* Services Grid with stagger */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -426,7 +427,7 @@
         }
 
         .service-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-8px) scale(1.02);
             box-shadow: 0 20px 48px rgba(26, 26, 26, 0.08);
             border-color: var(--terracotta);
         }
@@ -484,7 +485,7 @@
             font-weight: 400;
         }
 
-        /* Gallery */
+        /* Gallery with reveal & scale */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -506,7 +507,7 @@
         }
 
         .gallery-item:hover img {
-            transform: scale(1.08);
+            transform: scale(1.15);
             filter: brightness(0.95) saturate(1.05);
         }
 
@@ -530,6 +531,7 @@
         .stat-card:hover {
             background: rgba(245, 241, 232, 0.08);
             border-color: var(--terracotta);
+            transform: translateY(-4px);
         }
 
         .stat-number {
@@ -873,7 +875,6 @@
             }
         }
 
-        /* Utility Classes */
         .text-center {
             text-align: center;
         }
@@ -881,19 +882,59 @@
         .hidden {
             display: none;
         }
+
+        /* Marquee animation */
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            border-top: 1px solid rgba(245, 241, 232, 0.05);
+            border-bottom: 1px solid rgba(245, 241, 232, 0.05);
+            padding: 60px 0;
+        }
+
+        .marquee-track {
+            display: flex;
+            animation: scroll 40s linear infinite;
+            will-change: transform;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .marquee img {
+            height: 400px;
+            width: 400px;
+            object-fit: cover;
+            margin-right: 24px;
+            border-radius: 8px;
+            opacity: 0.7;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .marquee img:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
 
-    <!-- Progress Bar -->
     <div id="scroll-progress"></div>
 
-    <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-content">
-            <a href="#" class="nav-logo">
-                Alba Estates
-            </a>
+            <a href="#" class="nav-logo">Alba Estates</a>
             
             <div class="nav-links">
                 <a href="#neuf" data-i18n="nav.neuf">Neuf</a>
@@ -913,29 +954,24 @@
         </div>
     </nav>
 
-    <!-- Hero -->
     <section class="hero">
         <div class="hero-bg">
-            <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/2e38bf53-a5a3-4ac4-a0bc-861f6d0b52af_3840w.png" alt="Villa Alba Estates">
+            <img src="./images/hanoi 1.jpg" alt="Villa Alba Estates">
         </div>
         <div class="hero-overlay"></div>
         
         <div class="hero-content">
-            <h1 data-aos="fade-up" data-aos-duration="1200">
-                ALBA<span class="separator">—</span>ESTATES
-            </h1>
-            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200" data-i18n="hero.subtitle">
-                Construction neuve et rénovation d'exception
-            </p>
+            <h1>ALBA<span class="separator">—</span>ESTATES</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">Construction neuve et rénovation d'exception</p>
             
             <div class="hero-cards">
-                <a href="#neuf" class="hero-card" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+                <a href="#neuf" class="hero-card">
                     <div class="hero-card-eyebrow" data-i18n="hero.card1.eyebrow">Accès direct</div>
                     <div class="hero-card-title" data-i18n="hero.card1.title">PROJETS NEUFS</div>
                     <div class="hero-card-cta" data-i18n="hero.card1.cta">Découvrir →</div>
                 </a>
                 
-                <a href="#renovation" class="hero-card" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+                <a href="#renovation" class="hero-card">
                     <div class="hero-card-eyebrow" data-i18n="hero.card2.eyebrow">Accès direct</div>
                     <div class="hero-card-title" data-i18n="hero.card2.title">RÉNOVATION LOURDE</div>
                     <div class="hero-card-cta" data-i18n="hero.card2.cta">Découvrir →</div>
@@ -944,37 +980,33 @@
         </div>
 
         <div class="hero-quote">
-            <p data-aos="fade-up" data-aos-delay="800" data-i18n="quotes.hero">
-                "Wood creates silence. Marble creates presence."
-            </p>
+            <p data-i18n="quotes.hero">"Wood creates silence. Marble creates presence."</p>
         </div>
     </section>
 
-    <!-- Manifesto -->
     <section class="section-dark">
         <div class="container text-center">
-            <div class="quote-block" data-aos="fade-up" data-aos-duration="1200">
+            <div class="quote-block">
                 <p data-i18n="quotes.manifesto">"Ultra simple. Utterly luxurious."</p>
             </div>
-            <p class="section-description" style="margin: 40px auto 0;" data-aos="fade-up" data-aos-delay="200" data-i18n="manifesto.text">
+            <p class="section-description reveal" style="margin: 40px auto 0;" data-i18n="manifesto.text">
                 Matériaux nobles européens. Réseau artisans de premier rang. 10 ans d'excellence sur chantiers complexes.
             </p>
         </div>
     </section>
 
-    <!-- Approche -->
     <section class="section-olive">
         <div class="container text-center">
-            <span class="section-eyebrow" data-aos="fade-up" data-i18n="approche.eyebrow">Notre Approche</span>
-            <div class="quote-block" data-aos="fade-up" data-aos-delay="100">
+            <span class="section-eyebrow reveal" data-i18n="approche.eyebrow">Notre Approche</span>
+            <div class="quote-block reveal">
                 <p style="font-size: clamp(24px, 4vw, 40px);" data-i18n="quotes.clarity">
                     "Minimalism teaches us that clarity is a form of wealth."
                 </p>
             </div>
-            <h2 class="section-title" data-aos="fade-up" data-aos-delay="200" data-i18n="approche.title">
+            <h2 class="section-title reveal" data-i18n="approche.title">
                 Projets Globaux, Pas Prestations Isolées
             </h2>
-            <div style="max-width: 800px; margin: 40px auto 0; text-align: left;" data-aos="fade-up" data-aos-delay="300">
+            <div class="reveal" style="max-width: 800px; margin: 40px auto 0; text-align: left;">
                 <p style="margin-bottom: 24px; font-weight: 300; line-height: 1.9; opacity: 0.9;" data-i18n="approche.p1">
                     Alba Estates ne construit pas des maisons. Nous concevons des lieux de vie complets — de la topographie du terrain à la dernière applique murale.
                 </p>
@@ -985,21 +1017,20 @@
         </div>
     </section>
 
-    <!-- Projets Neufs -->
     <section id="neuf" class="section-light">
         <div class="container">
             <div class="text-center">
-                <span class="section-eyebrow" data-aos="fade-up" data-i18n="neuf.eyebrow">Construction Neuve</span>
-                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100" data-i18n="neuf.title">
+                <span class="section-eyebrow reveal" data-i18n="neuf.eyebrow">Construction Neuve</span>
+                <h2 class="section-title reveal" data-i18n="neuf.title">
                     De la recherche du terrain à la remise des clés
                 </h2>
-                <p class="section-description" style="margin: 24px auto 0;" data-aos="fade-up" data-aos-delay="200" data-i18n="neuf.description">
+                <p class="section-description reveal" style="margin: 24px auto 0;" data-i18n="neuf.description">
                     VEFA, co-investissement, maîtrise d'œuvre, conseil : 4 accompagnements selon votre profil.
                 </p>
             </div>
 
             <div class="services-grid">
-                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-card stagger-card">
                     <div class="service-card-header">
                         <span class="service-card-tag" data-i18n="services.1.tag">Acquéreur · Investisseur</span>
                         <span class="service-card-label" data-i18n="services.1.label">PROMOTION VEFA</span>
@@ -1014,7 +1045,7 @@
                     </ul>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-card stagger-card">
                     <div class="service-card-header">
                         <span class="service-card-tag" data-i18n="services.2.tag">Family Office · Investisseur</span>
                         <span class="service-card-label" data-i18n="services.2.label">CO-INVESTISSEMENT</span>
@@ -1029,7 +1060,7 @@
                     </ul>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-card stagger-card">
                     <div class="service-card-header">
                         <span class="service-card-tag" data-i18n="services.3.tag">Propriétaire terrain</span>
                         <span class="service-card-label" data-i18n="services.3.label">MAÎTRISE D'ŒUVRE</span>
@@ -1044,7 +1075,7 @@
                     </ul>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-card stagger-card">
                     <div class="service-card-header">
                         <span class="service-card-tag" data-i18n="services.4.tag">Porteur projet · Primo-accédant</span>
                         <span class="service-card-label" data-i18n="services.4.label">CONSEIL & INGÉNIERIE</span>
@@ -1060,45 +1091,37 @@
                 </div>
             </div>
 
-            <!-- Gallery Neuf -->
             <div class="gallery" style="margin-top: 80px;">
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/hanoi_1_1600w.webp" alt="Projet Neuf 1">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/euphoria_1_1600w.webp" alt="Projet Neuf 2">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/kayu_1_1600w.webp" alt="Projet Neuf 3">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/hanoi_3_1600w.webp" alt="Projet Neuf 4">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/euphoria_2_1600w.webp" alt="Projet Neuf 5">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/kayu_2_1600w.webp" alt="Projet Neuf 6">
-                </div>
+                <div class="gallery-item"><img src="./images/hanoi 1.jpg" alt="Projet Neuf 1"></div>
+                <div class="gallery-item"><img src="./images/kayu 3.jpg" alt="Projet Neuf 2"></div>
+                <div class="gallery-item"><img src="./images/euphoria 3.jpg" alt="Projet Neuf 3"></div>
+                <div class="gallery-item"><img src="./images/agapé 5.jpg" alt="Projet Neuf 4"></div>
+                <div class="gallery-item"><img src="./images/kayu 2.jpg" alt="Projet Neuf 5"></div>
+                <div class="gallery-item"><img src="./images/kayu 4.jpg" alt="Projet Neuf 6"></div>
+                <div class="gallery-item"><img src="./images/euphoria 4.jpg" alt="Projet Neuf 7"></div>
+                <div class="gallery-item"><img src="./images/euphoria 8.jpg" alt="Projet Neuf 8"></div>
+                <div class="gallery-item"><img src="./images/euphoria 5.jpg" alt="Projet Neuf 9"></div>
+                <div class="gallery-item"><img src="./images/euphoria 1.jpg" alt="Projet Neuf 10"></div>
+                <div class="gallery-item"><img src="./images/hanoi 3.jpg" alt="Projet Neuf 11"></div>
+                <div class="gallery-item"><img src="./images/euphoria 7.jpg" alt="Projet Neuf 12"></div>
             </div>
         </div>
     </section>
 
-    <!-- Rénovation -->
     <section id="renovation" class="section-light" style="padding-top: 80px;">
         <div class="container">
             <div class="text-center">
-                <span class="section-eyebrow" data-aos="fade-up" data-i18n="renovation.eyebrow">Rénovation Lourde</span>
-                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100" data-i18n="renovation.title">
+                <span class="section-eyebrow reveal" data-i18n="renovation.eyebrow">Rénovation Lourde</span>
+                <h2 class="section-title reveal" data-i18n="renovation.title">
                     Transformer l'ancien en excellence contemporaine
                 </h2>
-                <p class="section-description" style="margin: 24px auto 0;" data-aos="fade-up" data-aos-delay="200" data-i18n="renovation.description">
+                <p class="section-description reveal" style="margin: 24px auto 0;" data-i18n="renovation.description">
                     Même niveau d'exigence. Même réseau artisans. Transformation complète de votre patrimoine.
                 </p>
             </div>
 
             <div class="services-grid">
-                <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-card stagger-card">
                     <div class="service-card-header">
                         <span class="service-card-tag" data-i18n="services.5.tag">Acquéreur · Investisseur</span>
                         <span class="service-card-label" data-i18n="services.5.label">RÉNOVATION VEFA</span>
@@ -1113,7 +1136,7 @@
                     </ul>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-card stagger-card">
                     <div class="service-card-header">
                         <span class="service-card-tag" data-i18n="services.6.tag">Family Office · Investisseur</span>
                         <span class="service-card-label" data-i18n="services.6.label">CO-INVESTISSEMENT RÉNOVATION</span>
@@ -1128,7 +1151,7 @@
                     </ul>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-card stagger-card">
                     <div class="service-card-header">
                         <span class="service-card-tag" data-i18n="services.7.tag">Propriétaire</span>
                         <span class="service-card-label" data-i18n="services.7.label">MAÎTRISE D'ŒUVRE RÉNOVATION</span>
@@ -1143,7 +1166,7 @@
                     </ul>
                 </div>
 
-                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-card stagger-card">
                     <div class="service-card-header">
                         <span class="service-card-tag" data-i18n="services.8.tag">Propriétaire · Porteur projet</span>
                         <span class="service-card-label" data-i18n="services.8.label">CONSEIL RÉNOVATION</span>
@@ -1159,50 +1182,41 @@
                 </div>
             </div>
 
-            <!-- Gallery Renovation -->
             <div class="gallery" style="margin-top: 80px;">
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/agape_1_1600w.webp" alt="Rénovation 1">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/mala_1_1600w.webp" alt="Rénovation 2">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/euphoria_3_1600w.webp" alt="Rénovation 3">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/agape_2_1600w.webp" alt="Rénovation 4">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/mala_2_1600w.webp" alt="Rénovation 5">
-                </div>
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
-                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/euphoria_5_1600w.webp" alt="Rénovation 6">
-                </div>
+                <div class="gallery-item"><img src="./images/puglia 1.jpg" alt="Rénovation 1"></div>
+                <div class="gallery-item"><img src="./images/puglia 2.jpg" alt="Rénovation 2"></div>
+                <div class="gallery-item"><img src="./images/puglia 3.jpg" alt="Rénovation 3"></div>
+                <div class="gallery-item"><img src="./images/puglia 6.jpg" alt="Rénovation 4"></div>
+                <div class="gallery-item"><img src="./images/puglia 5.jpg" alt="Rénovation 5"></div>
+                <div class="gallery-item"><img src="./images/puglia 4.jpg" alt="Rénovation 6"></div>
+                <div class="gallery-item"><img src="./images/ruins 3.jpg" alt="Rénovation 7"></div>
+                <div class="gallery-item"><img src="./images/olive tree 1.jpg" alt="Rénovation 8"></div>
+                <div class="gallery-item"><img src="./images/olive tree 3.jpg" alt="Rénovation 9"></div>
+                <div class="gallery-item"><img src="./images/puglia 8.jpg" alt="Rénovation 10"></div>
+                <div class="gallery-item"><img src="./images/olive tree 4.jpg" alt="Rénovation 11"></div>
+                <div class="gallery-item"><img src="./images/puglia 7.jpg" alt="Rénovation 12"></div>
             </div>
         </div>
     </section>
 
-    <!-- Quote Material -->
     <section class="section-dark">
         <div class="container text-center">
-            <div class="quote-block" data-aos="fade-up">
+            <div class="quote-block reveal">
                 <p data-i18n="quotes.material">"Material is not a trend. It is structure."</p>
             </div>
         </div>
     </section>
 
-    <!-- Savoir-Faire -->
     <section id="savoir-faire" class="section-dark">
         <div class="container">
             <div class="text-center">
-                <span class="section-eyebrow" data-aos="fade-up" data-i18n="savoir.eyebrow">Réseau Exclusif</span>
-                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100" data-i18n="savoir.title">
+                <span class="section-eyebrow reveal" data-i18n="savoir.eyebrow">Réseau Exclusif</span>
+                <h2 class="section-title reveal" data-i18n="savoir.title">
                     Une Garde Rapprochée d'Artisans Européens
                 </h2>
             </div>
 
-            <div style="max-width: 900px; margin: 60px auto 0; text-align: left;" data-aos="fade-up" data-aos-delay="200">
+            <div class="reveal" style="max-width: 900px; margin: 60px auto 0; text-align: left;">
                 <p style="margin-bottom: 32px; font-weight: 300; line-height: 1.9; opacity: 0.9;" data-i18n="savoir.p1">
                     Notre cercle d'artisans — manufactures de marbre portugaises, ébénistes suisses, ferronniers italiens — collabore avec nous depuis une décennie.
                 </p>
@@ -1214,35 +1228,69 @@
                 </p>
             </div>
 
-            <!-- Stats -->
             <div class="stats-grid">
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="stat-card reveal">
                     <div class="stat-number">10</div>
                     <div class="stat-label" data-i18n="stats.1">ans — Réseau artisans Europe</div>
                 </div>
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-card reveal">
                     <div class="stat-number">100M€+</div>
                     <div class="stat-label" data-i18n="stats.2">Chantiers pilotés groupe suisse</div>
                 </div>
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="stat-card reveal">
                     <div class="stat-number">36 500m²</div>
                     <div class="stat-label" data-i18n="stats.3">Plus grand projet livré</div>
                 </div>
-                <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="stat-card reveal">
                     <div class="stat-number">12</div>
                     <div class="stat-label" data-i18n="stats.4">Manufactures partenaires exclusives</div>
                 </div>
             </div>
         </div>
+
+        <div class="marquee" style="margin-top: 80px;">
+            <div class="marquee-track">
+                <img src="./images/Stairs 1.jpg" alt="Escalier">
+                <img src="./images/Skirting 1.jpg" alt="Plinthes">
+                <img src="./images/skirting 2.jpg" alt="Plinthes">
+                <img src="./images/skirting 3.jpg" alt="Plinthes">
+                <img src="./images/skirting 4.jpg" alt="Plinthes">
+                <img src="./images/skirting 5.jpg" alt="Plinthes">
+                <img src="./images/skirting 6.jpg" alt="Plinthes">
+                <img src="./images/handles 1.jpg" alt="Poignées">
+                <img src="./images/kitchen 1.jpg" alt="Cuisine">
+                <img src="./images/material 1.jpg" alt="Matériau">
+                <img src="./images/materials 1.jpg" alt="Matériaux">
+                <img src="./images/materials 2.jpg" alt="Matériaux">
+                <img src="./images/Materials 3.jpg" alt="Matériaux">
+                <img src="./images/materials 4.jpg" alt="Matériaux">
+                <img src="./images/materials 5.jpg" alt="Matériaux">
+                <!-- Duplicate for seamless loop -->
+                <img src="./images/Stairs 1.jpg" alt="Escalier">
+                <img src="./images/Skirting 1.jpg" alt="Plinthes">
+                <img src="./images/skirting 2.jpg" alt="Plinthes">
+                <img src="./images/skirting 3.jpg" alt="Plinthes">
+                <img src="./images/skirting 4.jpg" alt="Plinthes">
+                <img src="./images/skirting 5.jpg" alt="Plinthes">
+                <img src="./images/skirting 6.jpg" alt="Plinthes">
+                <img src="./images/handles 1.jpg" alt="Poignées">
+                <img src="./images/kitchen 1.jpg" alt="Cuisine">
+                <img src="./images/material 1.jpg" alt="Matériau">
+                <img src="./images/materials 1.jpg" alt="Matériaux">
+                <img src="./images/materials 2.jpg" alt="Matériaux">
+                <img src="./images/Materials 3.jpg" alt="Matériaux">
+                <img src="./images/materials 4.jpg" alt="Matériaux">
+                <img src="./images/materials 5.jpg" alt="Matériaux">
+            </div>
+        </div>
     </section>
 
-    <!-- Fondateur -->
     <section id="fondateur" class="section-light">
         <div class="container">
             <div class="founder-grid">
-                <div data-aos="fade-right" data-aos-duration="1000">
+                <div class="reveal">
                     <div class="founder-image">
-                        <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/26ca62cb-52cd-451c-8416-fc8a52d05bd0_1600w.png" alt="Aidan Murphy">
+                        <img src="./images/Photo officielle site.png" alt="Aidan Murphy">
                         <div class="founder-badge">
                             <div class="founder-badge-eyebrow" data-i18n="founder.badge.eyebrow">Fondateur</div>
                             <div class="founder-badge-name" data-i18n="founder.badge.name">Aidan Murphy</div>
@@ -1250,7 +1298,7 @@
                     </div>
                 </div>
 
-                <div class="founder-content" data-aos="fade-left" data-aos-duration="1000">
+                <div class="founder-content reveal">
                     <span class="section-eyebrow" data-i18n="founder.eyebrow">Expertise</span>
                     <h2 data-i18n="founder.title">Des Chantiers Complexes aux Résidences d'Exception</h2>
                     
@@ -1270,27 +1318,25 @@
         </div>
     </section>
 
-    <!-- Quote Quiet -->
     <section class="section-olive">
         <div class="container text-center">
-            <div class="quote-block" data-aos="fade-up">
+            <div class="quote-block reveal">
                 <p data-i18n="quotes.quiet">"A quiet space creates a quiet mind."</p>
             </div>
         </div>
     </section>
 
-    <!-- FAQ -->
     <section id="faq" class="section-light">
         <div class="container">
             <div class="text-center">
-                <span class="section-eyebrow" data-aos="fade-up" data-i18n="faq.eyebrow">Questions Fréquentes</span>
-                <h2 class="section-title" data-aos="fade-up" data-aos-delay="100" data-i18n="faq.title">
+                <span class="section-eyebrow reveal" data-i18n="faq.eyebrow">Questions Fréquentes</span>
+                <h2 class="section-title reveal" data-i18n="faq.title">
                     Tout ce que vous devez savoir
                 </h2>
             </div>
 
             <div class="faq-list">
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-item reveal">
                     <button class="faq-question">
                         <span data-i18n="faq.q1">Quels sont vos délais de construction ?</span>
                         <div class="faq-icon">+</div>
@@ -1300,7 +1346,7 @@
                     </div>
                 </div>
 
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="faq-item reveal">
                     <button class="faq-question">
                         <span data-i18n="faq.q2">Travaillez-vous partout en France ?</span>
                         <div class="faq-icon">+</div>
@@ -1310,7 +1356,7 @@
                     </div>
                 </div>
 
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="faq-item reveal">
                     <button class="faq-question">
                         <span data-i18n="faq.q3">Comment fonctionnent vos matériaux européens ?</span>
                         <div class="faq-icon">+</div>
@@ -1320,7 +1366,7 @@
                     </div>
                 </div>
 
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="faq-item reveal">
                     <button class="faq-question">
                         <span data-i18n="faq.q4">Quel budget prévoir ?</span>
                         <div class="faq-icon">+</div>
@@ -1330,7 +1376,7 @@
                     </div>
                 </div>
 
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="500">
+                <div class="faq-item reveal">
                     <button class="faq-question">
                         <span data-i18n="faq.q5">Proposez-vous un accompagnement financement ?</span>
                         <div class="faq-icon">+</div>
@@ -1340,7 +1386,7 @@
                     </div>
                 </div>
 
-                <div class="faq-item" data-aos="fade-up" data-aos-delay="600">
+                <div class="faq-item reveal">
                     <button class="faq-question">
                         <span data-i18n="faq.q6">Différence maîtrise d'œuvre vs promotion VEFA ?</span>
                         <div class="faq-icon">+</div>
@@ -1353,11 +1399,10 @@
         </div>
     </section>
 
-    <!-- Contact -->
     <section id="contact" class="section-light" style="padding-top: 80px;">
         <div class="container">
             <div class="contact-grid">
-                <div data-aos="fade-right" data-aos-duration="1000">
+                <div class="reveal">
                     <h2 data-i18n="contact.title">Parlons de votre projet</h2>
                     
                     <div class="contact-detail">
@@ -1384,7 +1429,7 @@
                     </p>
                 </div>
 
-                <div data-aos="fade-left" data-aos-duration="1000">
+                <div class="reveal">
                     <form class="contact-form">
                         <div class="form-group">
                             <label class="form-label" data-i18n="form.name">Nom & Prénom</label>
@@ -1428,7 +1473,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -1463,19 +1507,108 @@
         </div>
     </footer>
 
-    <!-- AOS JS -->
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-            once: true,
-            offset: 80
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero animations
+        gsap.timeline()
+            .to('.hero h1', {
+                opacity: 1,
+                duration: 1.2,
+                delay: 0.3,
+                ease: 'power3.out'
+            })
+            .to('.hero-subtitle', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power3.out'
+            }, '-=0.6')
+            .to('.hero-card', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'power3.out'
+            }, '-=0.4')
+            .to('.hero-quote', {
+                opacity: 1,
+                duration: 1,
+                ease: 'power3.out'
+            }, '-=0.4');
+
+        // Parallax hero background
+        gsap.to('.hero-bg img', {
+            yPercent: 30,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
         });
 
-        // Scroll Progress Bar
+        // Reveal animations
+        gsap.utils.toArray('.reveal').forEach(el => {
+            gsap.from(el, {
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Stagger cards
+        gsap.utils.toArray('.services-grid').forEach(grid => {
+            gsap.from(grid.querySelectorAll('.stagger-card'), {
+                y: 80,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: grid,
+                    start: 'top 80%'
+                }
+            });
+        });
+
+        // Gallery reveal
+        gsap.utils.toArray('.gallery-item').forEach((item, i) => {
+            gsap.from(item, {
+                scale: 0.8,
+                opacity: 0,
+                duration: 0.6,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 90%'
+                }
+            });
+        });
+
+        // Stats animation
+        gsap.utils.toArray('.stat-card').forEach(card => {
+            gsap.from(card, {
+                scale: 0.9,
+                opacity: 0,
+                duration: 0.6,
+                ease: 'back.out(1.4)',
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%'
+                }
+            });
+        });
+
+        // Scroll Progress
         window.addEventListener('scroll', () => {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
